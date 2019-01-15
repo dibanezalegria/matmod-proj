@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+html {
+    font-family: 'Roboto Mono', monospace;
+}
+
+body {
+    width: 100%;
+    margin: 2rem;
+}
+
+table td {
+    width: 1rem;
+    padding: 0.6rem;
+    text-align: center;
+}
+
+table td.active {
+    background: #43a047;
+    color: #fff;
+}
+
+table .bold {
+    color: #fff;
+    background-color: #666;
+}
+
+table .disabled {
+    background-color: #ddd;
+}
+
+input-iterations-div {
+    display: flex;
+    flex-direction: row;
+}
+
+input {
+    width: 6rem;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 2rem 0;
+}
+
+label {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+#error-message {
+    color: red;
+}
+
+#calculate-btn {
+    display: inline-block;
+    color: #fff;
+    margin: 1rem 0;
+    padding: 1rem 0;
+    text-align: center;
+    width: 25%;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+#calculate-btn {
+    background-color: #3f51b5;
+}
+
+#calculate-btn:active {
+    background-color: #303f9f;
+}
