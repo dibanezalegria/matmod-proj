@@ -9,17 +9,6 @@ body {
     margin: 2rem;
 }
 
-table td {
-    width: 1rem;
-    padding: 0.6rem;
-    text-align: center;
-}
-
-table td.active {
-    background: #43a047;
-    color: #fff;
-}
-
 table .bold {
     color: #fff;
     background-color: #666;
@@ -29,6 +18,35 @@ table .disabled {
     background-color: #ddd;
 }
 
+.matrix-table {
+    padding: 0.6rem 1rem;
+    text-align: center;
+}
+
+.matrix-table td {
+    width: 1rem;
+    padding: 0.6rem;
+}
+
+.matrix-table td.active {
+    background: #43a047;
+    color: #fff;
+}
+
+.result-table {
+    border: 1px solid #aaa;
+}
+
+.result-table td {
+    padding: 0.4rem 2rem;
+}
+
+.result-table th {
+    padding: 0.4rem 2rem;
+    background-color: #666;
+    color: #fff;
+}
+
 input-iterations-div {
     display: flex;
     flex-direction: row;
@@ -36,9 +54,10 @@ input-iterations-div {
 
 input {
     width: 6rem;
+    padding: 0.3rem 1rem;
     text-align: center;
-    font-size: 1.5rem;
-    margin: 2rem 0;
+    font-size: 1.2rem;
+    margin: 1rem 0;
 }
 
 label {
@@ -46,30 +65,29 @@ label {
     margin-right: 0.5rem;
 }
 
-.invisible {
-    visibility: hidden;
+#search {
+    width: 24rem;
+    text-align: left;
+    margin-top: 3rem;
 }
 
 #error-message {
     color: red;
 }
 
-#calculate-btn {
+.input-div p {
     display: inline-block;
+    width: 6rem;
     color: #fff;
     margin: 1rem 0;
-    padding: 1rem 0;
+    padding: 0.5rem 1rem;
     text-align: center;
-    width: 25%;
     cursor: pointer;
     font-weight: bold;
     border-radius: 6px;
-}
-
-#calculate-btn {
     background-color: #3f51b5;
 }
 
-#calculate-btn:active {
+.input-div p:active {
     background-color: #303f9f;
 }

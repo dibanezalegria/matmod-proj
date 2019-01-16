@@ -35,7 +35,7 @@ import Matrix from 'ml-matrix';
     * Create HTML table.
     */
     function createEmptyTable() {
-        let table = "<table id='matrix'>";
+        let table = "<table id='matrix' class='matrix-table'>";
         for (let row = 0; row <= NPAGES; row++) {
             table += "<tr>";
             for (let col = 0; col <= NPAGES; col++) {
@@ -170,7 +170,7 @@ import Matrix from 'ml-matrix';
 
         let mkMat = hMatrix;
 
-        // Iterations Hr, (H^2)r, (H^3)r
+        // Calculate M^k
         for (let i = 0; i < niterations - 1; i++) {
             mkMat = hMatrix.mmul(mkMat);
         }
@@ -185,7 +185,7 @@ import Matrix from 'ml-matrix';
     */
     function printHyperlinkTable(hyperMat) {
         let resultDiv = document.getElementById('hyperlink-div');
-        let table = "<h3>Hyperlink matrix H</h3><hr><table>";
+        let table = "<h3>Hyperlink matrix H</h3><hr><table class='result-table'>";
         for (let row = 0; row < NPAGES; row++) {
             table += "<tr>";
             for (let col = 0; col < NPAGES; col++) {
@@ -203,7 +203,7 @@ import Matrix from 'ml-matrix';
     */
     function printPageRankTable(rankMat, niterations) {
         let pageRankDiv = document.getElementById('pagerank-div');
-        let table = "<h3>PageRank (" + niterations + " iterations)</h3><hr><table><tr><th>page</th><th>PR<th></th></tr>";
+        let table = "<h3>PageRank (" + niterations + " iterations)</h3><hr><table class='result-table'><tr><th>page</th><th>PR</th></tr>";
         for (let row = 0; row < NPAGES; row++) {
             table += "<tr>";
             table += "<td>" + (row + 1) + "</td>";
@@ -245,13 +245,13 @@ import Matrix from 'ml-matrix';
         let valuesMat = getTableValues();   // get updated values
         let errorMsg = document.getElementById("error-message");
         if (!hasDanglingNodes(valuesMat)) {
-            errorMsg.classList.add("invisible");
+            errorMsg.innerHTML = "";
             let hypMat = calculateHyperlink(valuesMat);
             printHyperlinkTable(hypMat);
             let pageRankMat = calculatePageRank(hypMat, niterations);
             printPageRankTable(pageRankMat, niterations);
         } else {
-            errorMsg.classList.remove("invisible");
+            errorMsg.innerHTML = "Network has dangling nodes.";
             let resultDiv = document.getElementById('hyperlink-div');
             let pageRankDiv = document.getElementById('pagerank-div');
             resultDiv.innerHTML = "";

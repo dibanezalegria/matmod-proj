@@ -12,7 +12,7 @@ import Page from "./Page.js";
     *
     */
     function drawAdjacencyMatrix(htmlElement, values) {
-        let table = "<table id='matrix'>";
+        let table = "<table class='matrix-table'>";
         for (let row = 0; row <= NPAGES; row++) {
             table += "<tr>";
             for (let col = 0; col <= NPAGES; col++) {
@@ -145,7 +145,7 @@ import Page from "./Page.js";
 
     /**
     * Check whether condition to stop iteration is met.
-    * Condition |r(k) − r(k − 1)| < ε with ε > 0.001
+    * Condition |r(k) − r(k − 1)| < 0.001
     *
     * @param {Array} actualMat PageRank for actual iteration
     * @param {Array} prevMat PageRank for previous iteration
@@ -160,7 +160,7 @@ import Page from "./Page.js";
         let subsMat = Matrix.sub(actualMat, prevMat);
 
         for (let row = 0; row < NPAGES; row++) {
-            // ε > 0.001
+            // ε = 0.001
             if (Math.abs(subsMat.get(row, 0)) > 0.001) {
                 return false;
             }
@@ -202,14 +202,18 @@ import Page from "./Page.js";
 
         // Assign keywords to pages
         let words = ["dog", "cat", "horse", "chicken", "fish", "bear",
-            "bird", "shark", "snake", "pig", "lion", "turkey", "wolf", "spider"];
+        "bird", "shark", "snake", "pig", "lion", "turkey", "wolf", "spider"];
 
         for (let i = 0; i < totalPages; i++) {
             // One page can have [1, 3] keywords
-            let num = Math.floor(Math.random() * 3) + 1;
-            for (let key = 0; key < num; key++) {
-                let word = Math.floor(Math.random() * words.length);
-                pageArray[i].keywords.push(words[word]);
+            let nkeys = Math.floor(Math.random() * 3) + 1;
+            for (let key = 0; key < nkeys; key++) {
+                let wordIndex = Math.floor(Math.random() * words.length);
+                if (pageArray[i].keywords.includes(words[wordIndex])) {
+                    key--;
+                } else {
+                    pageArray[i].keywords.push(words[wordIndex]);
+                }
             }
         }
 
@@ -229,9 +233,9 @@ import Page from "./Page.js";
         let mat = [];
         for (let row = 0; row < NPAGES; row++) {
             let aRow = Array(NPAGES).fill(0);
-                pageArray[row].links.forEach (function (link) {
-                    aRow[link - 1] = 1;
-                });
+            pageArray[row].links.forEach (function (link) {
+                aRow[link - 1] = 1;
+            });
             mat.push(aRow);
         }
         return mat;
@@ -262,13 +266,133 @@ import Page from "./Page.js";
     }
 
 
+    function printPagesTable() {
+        let table = "<h3>Pages</h3><hr>";
+        table += "<table class='result-table'><tr><th>page #</th><th>PR</th><th>Keywords</th></tr>";
+        sortedRankMat.forEach(function (page) {
+            table += "<tr>";
+            table += "<td>" + parseInt(page[0] + 1) + "</td>";
+            table += "<td>" + page[1] + "</td>";
+            // Keywords column
+            table += "<td>" + pageArray[page[0]].keywords.toString() + "</td>";
+            table += "</tr>";
+        });
+        table += "</table>";
+        return table;
+    }
+
+    /**
+    * View pages.
+    */
+    // function viewPages() {
+    //     let table = "<h3>Pages</h3><hr>";
+    //     table += "<table class='result-table'><tr><th>#</th><th>keywords</th></tr>";
+    //     pageArray.forEach(function (page) {
+    //         table += "<tr>";
+    //         table += "<td>" + page.id + "</td>";
+    //         table += "<td>" + page.keywords.toString() + "</td>";
+    //         table += "</tr>";
+    //     });
+    //     table += "</table>";
+    //     return table;
+    // }
+
+
+    /**
+    * Search given string among page's keywords following PageRank order.
+    *
+    * @param {string} str
+    */
+    function search(str) {
+        let searchStr = str.trim().toLowerCase();
+        let table = "<h3>Search result</h3><hr>";
+        table += "<table class='result-table'><tr><th>#</th><th>Keyword</th></tr>";
+        let empty = true;
+        sortedRankMat.forEach(function (page) {
+            let pageObj = pageArray[page[0]];
+            pageObj.keywords.forEach(function (keyword) {
+                if (keyword.includes(searchStr)) {
+                    table += "<tr>";
+                    table += "<td>" + pageObj.id + "</td>";
+                    table += "<td>" + keyword + "</td>";
+                    table += "</tr>";
+                    empty = false;
+                }
+            });
+        });
+        if (empty) {
+            table += "<tr><td>-</td><td>-</td></tr>";
+        }
+        table += "</table>";
+        return table;
+    }
+
+
+    /**
+    * Run program.
+    */
+    // function run(npages, nlinks) {
+    //
+    // }
+
+
+
+    /**
+    * Buttons event listeners.
+    */
+
+    var searchBtn = document.getElementById("search-btn");
+    searchBtn.addEventListener("click", function () {
+        let word = document.getElementById("search").value;
+        let resultDiv = document.getElementById('search-result-div');
+        let errorMsg = document.getElementById("error-message");
+        if (word.length < 3) {
+            resultDiv.innerHTML = "";
+            errorMsg.innerHTML = "Search string must be at least 3 characters.";
+        } else {
+            errorMsg.innerHTML = "";
+            resultDiv.innerHTML = search(word);
+        }
+    });
+
+
+    // var resetBtn = document.getElementById("reset-btn");
+    // resetBtn.addEventListener("click", function () {
+    //     let npages = document.getElementById("num-pages").value;
+    //     let nlinks = document.getElementById("num-links").value;
+    //     let resultDiv = document.getElementById('result-div');
+    //     let errorMsg = document.getElementById("error-message");
+    //
+    //     if (npages < 4 || npages > 40 || nlinks < 6 || nlinks > 60) {
+    //         resultDiv.innerHTML = "";
+    //         errorMsg.innerHTML = "Check pages and links ranges. Note: number of links should be less or equal than (pages * (pages - 1))";
+    //     } else if (search.length < 4) {
+    //         errorMsg.innerHTML = "";
+    //         run(npages, nlinks);
+    //     }
+    // });
+
+
+    // var viewBtn = document.getElementById("view-btn");
+    // viewBtn.addEventListener("click", function () {
+    //     let viewDiv = document.getElementById('view-pages-div');
+    //     let viewBtn = document.getElementById('view-btn');
+    //     if (viewBtn.innerHTML == "View pages") {
+    //         viewBtn.innerHTML = "Hide pages";
+    //         viewDiv.innerHTML = viewPageRank();
+    //     } else {
+    //         viewBtn.innerHTML = "View pages";
+    //         viewDiv.innerHTML = "";
+    //     }
+    // });
+
 
     /**
     * Number of nodes (pages) and connections in the network.
     * Note maximum number of NLINKS = NPAGES * (NPAGES - 1)
     */
     const NPAGES = 5;
-    const NLINKS = 20;
+    const NLINKS = 8;
 
     // Adjacency matrix (lecture)
     // var mat = [
@@ -280,6 +404,7 @@ import Page from "./Page.js";
 
     // Generate networks of pages
     var pageArray = generateRandomNetwork(NPAGES, NLINKS);
+    console.log(pageArray);
     var mat = createAdjacencyMatrix(pageArray);
 
     drawAdjacencyMatrix("table-div", mat);
@@ -291,11 +416,9 @@ import Page from "./Page.js";
     //
     //
     var rankMat = calculatePageRank(modMat);
+    var sortedRankMat = sortPageRank(rankMat);
 
-    console.log(rankMat);
-
-    var sortMat = sortPageRank(rankMat);
-
-    // console.log(rankMat);
-
+    // Print table for pages, PR and keywords
+    let viewDiv = document.getElementById('view-pages-div');
+    viewDiv.innerHTML = printPagesTable();
 })();
