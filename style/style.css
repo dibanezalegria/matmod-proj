@@ -38,11 +38,11 @@ table .disabled {
 }
 
 .result-table td {
-    padding: 0.4rem 2rem;
+    padding: 0.4rem 1rem;
 }
 
 .result-table th {
-    padding: 0.4rem 2rem;
+    padding: 0.4rem 1rem;
     background-color: #666;
     color: #fff;
 }

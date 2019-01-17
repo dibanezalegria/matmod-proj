@@ -181,11 +181,10 @@ export default class Network {
         } while (iterate);
 
         this.pageRankMat = rankMat;
-
-        console.log("iterations: " + k);
+        // console.log("k: " + k);
     }
 
-    // Return true |actualMat − prevMat| < 0.001 for every value
+    // Return true |actualMat − prevMat| < ε for every value
     isIterationOver(actualMat, prevMat) {
         if (prevMat == null) {
             return false;

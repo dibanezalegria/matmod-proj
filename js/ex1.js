@@ -9,16 +9,6 @@ import Matrix from 'ml-matrix';
     */
     const NPAGES = 8;
 
-
-    // Adjacency matrix (lecture)
-    // var initialValues = [
-    //     [0, 0, 1, 1],
-    //     [1, 0, 0, 0],
-    //     [1, 1, 0, 1],
-    //     [1, 1, 0, 0]
-    // ];
-
-
     var initialValues = [
         [0, 1, 0, 0, 1, 0, 0, 0],
         [0, 0, 1, 0, 1, 0, 0, 0],
@@ -203,7 +193,7 @@ import Matrix from 'ml-matrix';
     */
     function printPageRankTable(rankMat, niterations) {
         let pageRankDiv = document.getElementById('pagerank-div');
-        let table = "<h3>PageRank (" + niterations + " iterations)</h3><hr><table class='result-table'><tr><th>page</th><th>PR</th></tr>";
+        let table = "<h3>PageRank (" + niterations + " iterations)</h3><hr><table class='result-table'><tr><th>page #</th><th>PR</th></tr>";
         for (let row = 0; row < NPAGES; row++) {
             table += "<tr>";
             table += "<td>" + (row + 1) + "</td>";

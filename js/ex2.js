@@ -31,8 +31,12 @@ import Network from "./Network.js";
         let nlinks = document.getElementById("num-links").value;
         let errorMsg = document.getElementById("error-message");
 
-        if (npages < 4 || npages > 40 || nlinks < 4 || nlinks > (npages * (npages - 1))) {
-            errorMsg.innerHTML = "Check value for pages and/or links. <br>Note that the number of links should be less or equal than (pages * (pages - 1))";
+        if (npages < 4 || npages > 40 || nlinks < 1 || nlinks > (npages * (npages - 1))) {
+            errorMsg.innerHTML = "Check the following:<br>- Number of pages must be in [4,40] range.<br>- Number of links must be bigger than 0.<br>- Number of links must be less or equal than (pages x (pages - 1))."
+            let pagesDiv = document.getElementById("view-pages-div");
+            let resultDiv = document.getElementById('search-result-div');
+            pagesDiv.innerHTML = "";
+            resultDiv.innerHTML = "";
         } else {
             errorMsg.innerHTML = "";
             run(npages, nlinks);
@@ -59,5 +63,5 @@ import Network from "./Network.js";
 
     // Begin execution
     var network = null;
-    run(30, 80);
+    run(30, 50);
 })();
