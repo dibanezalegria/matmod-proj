@@ -30,13 +30,14 @@ import Network from "./Network.js";
         let npages = document.getElementById("num-pages").value;
         let nlinks = document.getElementById("num-links").value;
         let errorMsg = document.getElementById("error-message");
+        let resultDiv = document.getElementById('search-result-div');
+        resultDiv.innerHTML = "";
 
         if (npages < 4 || npages > 40 || nlinks < 1 || nlinks > (npages * (npages - 1))) {
             errorMsg.innerHTML = "Check the following:<br>- Number of pages must be in [4,40] range.<br>- Number of links must be bigger than 0.<br>- Number of links must be less or equal than (pages x (pages - 1))."
             let pagesDiv = document.getElementById("view-pages-div");
-            let resultDiv = document.getElementById('search-result-div');
             pagesDiv.innerHTML = "";
-            resultDiv.innerHTML = "";
+            network = null;
         } else {
             errorMsg.innerHTML = "";
             run(npages, nlinks);
@@ -49,6 +50,9 @@ import Network from "./Network.js";
 
     var searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", function () {
+        if (network == null) {
+            return;
+        }
         let word = document.getElementById("search").value;
         let resultDiv = document.getElementById('search-result-div');
         let errorMsg = document.getElementById("error-message");
